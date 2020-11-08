@@ -27,5 +27,21 @@ namespace BookLibraryApi.Services
 
             return result;
         }
+
+        public async Task<List<Book>> GetAllBooks()
+        {
+            var result = new List<Book>();
+
+            using (var cn = new SqlConnection(Settings.GetConnectionString("BookLibrary")))
+            {
+                cn.Open();
+                var sql = $@"SELECT *
+                             FROM [Books]";
+
+                result = cn.Query<Book>(sql).ToList();
+            }
+
+            return result;
+        }
     }
 }

@@ -24,10 +24,17 @@ namespace BookLibraryApi.Controllers
             _bookService = bookService;
         }
 
-        [HttpGet(nameof(GetById))]
-        public async Task<Book> GetById(string id)
+        [HttpGet("{id}")]
+        public async Task<Book> Get([FromRoute] Guid id)
         {
-            return await _bookService.GetBook(id);
+            return await _bookService.GetBook(id.ToString());
         }
+
+        [HttpGet]
+        public async Task<List<Book>> GetAll()
+        {
+            return await _bookService.GetAllBooks();
+        }
+
     }
 }
