@@ -18,30 +18,16 @@ namespace BookLibraryApi.Controllers
 
     public class BookController : ControllerBase
     {
-        private readonly IDapper _dapper;
-        public BookController(IDapper dapper)
+        private readonly IBookService _bookService;
+        public BookController(IBookService bookService)
         {
-            _dapper = dapper;
+            _bookService = bookService;
         }
 
         [HttpGet(nameof(GetById))]
-        public async Task<Book> GetById(string Id)
+        public async Task<Book> GetById(string id)
         {
-            var result = new Book();
-
-            using (var cn = new SqlConnection(Settings.GetConnectionString("BookLibrary")))
-            {
-                cn.Open();
-                var sql = $@"SELECT *
-                             FROM [Books]
-                             WHERE [Id] = @Id";
-
-                result = cn.Query<Book>(sql, new { Id }).FirstOrDefault();
-            }
-
-            return result;
-            //var result = await Task.FromResult(_dapper.Get<Book>($"Select * from '[Books]' where Id = '{Id}'", null, commandType: CommandType.Text));
-            //return result;
+            return await _bookService.GetBook(id);
         }
     }
 }

@@ -25,8 +25,7 @@ namespace BookLibraryApi
                           options.UseSqlServer(
                               Configuration.GetConnectionString("DefaultConnection")));
             
-            //Register dapper in scope    
-            services.AddScoped<IDapper, Dapperr>();
+            services.AddScoped<IBookService, BookService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
